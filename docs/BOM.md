@@ -2,6 +2,8 @@
 
 > ⚠️ **법적/안전 주의사항**: 타 비행체를 자동으로 요격(충돌)하는 시스템은 다수 국가에서 항공법·전파법·방위사업법상 규제 대상입니다. 실제 운용 전 관할 기관(국토부, 국방부, 방사청 등)의 허가/승인 여부를 반드시 확인하세요. **최종 충돌/요격 판단은 사람이 승인하는 Human-in-the-loop 구조**를 권장합니다.
 
+> ✅ **부품 검증**: 전 항목을 제조사 공식 사이트/리테일러 카탈로그 기준으로 재검증했습니다(2026-09 기준). 존재하지 않는 SKU와 단종/개명된 제품을 실제 판매 중인 제품으로 교체했습니다 (상세: parts-list.md 참고).
+
 - **기체 등급**: 7인치, 고사양(내구성/속도/페이로드 우선)
 - **자율비행 스택**: PX4 + ROS2, PX4 HITL ↔ NVIDIA Isaac Sim 사전 검증
 - **작성 기준**: 1대 제작 기준, 2025년 국내 리테일 평균가 참고치(KRW, 부가세 별도 가능성 있음)
@@ -12,27 +14,27 @@
 
 | No | 분류 | 품목 | 규격/모델 | 수량 | 단위 | 단가(KRW) | 합계(KRW) | 공급망 | 비고 |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | 프레임 | 7인치 레이싱 프레임 | Armattan Rooster 7" / TBS Source One V5 7" | 1 | set | 220,000 | 220,000 | 해외직구/국내대리점 | 카본 3K, Jetson 탑재 스택형 |
+| 1 | 프레임 | 7인치 레이싱 프레임 | iFlight XL7 V4 / HGLRC MY7 | 1 | set | 220,000 | 220,000 | 해외직구/국내대리점 | 카본 3K, Jetson 탑재 스택형 (TBS Source One V5는 5"만 존재, Armattan Rooster는 5"/6"만 존재하여 제외) |
 | 2 | 프레임 | 보강 스탠드오프 세트 | 알루미늄 M3 스탠드오프 | 1 | set | 20,000 | 20,000 | 국내 FPV샵 | 진동 저감, 페이로드 마운트 |
-| 3 | 동력계 | 브러시리스 모터 | T-Motor F90 Pro 1750KV / iFlight XING2 2812 | 4 | ea | 70,000 | 280,000 | 해외직구 | 6S 대응, 고속·고토크 |
+| 3 | 동력계 | 브러시리스 모터 | T-Motor F90 1500KV / iFlight XING2 2806.5 1800KV | 4 | ea | 70,000 | 280,000 | 해외직구 | 6S 대응, 고속·고토크 (F90 Pro 1750KV, XING2 2812는 실제 SKU 아님 — 정정) |
 | 4 | 동력계 | 프로펠러 | HQProp 7x4x3 / Gemfan 7042 | 3 | set(3EA) | 15,000 | 45,000 | 국내 FPV샵 | 고속형, 예비 포함 |
-| 5 | FC/ESC | 비행 컨트롤러 | **Holybro Kakute H7 v1.5** | 1 | ea | 130,000 | 130,000 | Holybro 공식/국내대리점 | PX4 공식 지원(`make holybro_kakuteh7_default`), 내장 컴퍼스 없음 |
-| 6 | FC/ESC | 4in1 ESC | **Tekko32 F4 Metal 4in1 65A** | 1 | ea | 120,000 | 120,000 | Holybro 공식/국내대리점 | Kakute H7 공식 권장 페어링, BLHeli32/DShot |
-| 7 | 센서 | GPS+컴퍼스 모듈 | Holybro M9N/M10 GPS w/ Compass | 1 | ea | 90,000 | 90,000 | Holybro 공식 | 완전자율(GPS 웨이포인트) 필수, UART4 연결 |
-| 8 | 센서 | 텔레메트리 라디오 | Holybro 900MHz Telemetry Radio | 1 | set(2EA) | 90,000 | 90,000 | Holybro 공식 | FC↔GCS, UART1(TELEM1) |
+| 5 | FC/ESC | 비행 컨트롤러 | **Holybro Kakute H7 v1.5** | 1 | ea | 130,000 | 130,000 | Holybro 공식/국내대리점 | PX4 공식 지원(`make holybro_kakuteh7_default`), IMU: ICM-42688-P, 내장 컴퍼스 없음 |
+| 6 | FC/ESC | 4in1 ESC | **Tekko32 F4 Metal 4in1 65A** | 1 | ea | 120,000 | 120,000 | Holybro 공식/국내대리점 | Kakute H7 공식 페어링(30.5x30.5mm 스택 규격 일치), BLHeli32/AM32/DShot |
+| 7 | 센서 | GPS+컴퍼스 모듈 | **Holybro M10 GPS** (IST8310 컴퍼스) | 1 | ea | 90,000 | 90,000 | Holybro 공식 | 완전자율(GPS 웨이포인트) 필수, UART4 연결, Holybro 현재 권장 모델 |
+| 8 | 센서 | 텔레메트리 라디오 | **Holybro SiK Telemetry Radio V3** (915MHz) | 1 | set(2EA) | 90,000 | 90,000 | Holybro 공식 | FC↔GCS, UART1(TELEM1), 구 "900MHz Telemetry Radio"의 현재 정식명 |
 | 9 | 센서 | 거리 라이다 | TF-Luna | 1 | ea | 60,000 | 60,000 | Benewake | 저고도 안정화, GPS 취약구간 보조 |
-| 10 | 자율비행 | 컴패니언 컴퓨터 | NVIDIA Jetson Orin Nano Super (8GB) | 1 | ea | 350,000 | 350,000 | NVIDIA 공식/국내대리점 | ROS2+PX4 오프보드 제어, 표적 인식 |
-| 11 | 자율비행 | 캐리어 보드 | Seeed reComputer 등 경량 캐리어보드 | 1 | ea | 200,000 | 200,000 | Seeed 공식 | 항공기용 경량 설계 |
-| 12 | 자율비행 | 비전 센서 | Intel RealSense D435i / OAK-D Lite | 1 | ea | 300,000 | 300,000 | Intel/Luxonis 공식 | 표적 탐지·추적, VIO 보조 |
+| 10 | 자율비행 | 컴패니언 컴퓨터 | NVIDIA **Jetson Orin Nano Super Developer Kit** (8GB) | 1 | ea | 350,000 | 350,000 | NVIDIA 공식/국내대리점 | ROS2+PX4 오프보드 제어, 표적 인식, 정식 제품명 확인 |
+| 11 | 자율비행 | 캐리어 보드 | Waveshare Jetson Orin Nano 경량 캐리어보드 / Auvidea JNX 시리즈 | 1 | ea | 200,000 | 200,000 | Waveshare/Auvidea 공식 | Seeed reComputer는 데스크탑용 밀폐 박스라 비행체 부적합하여 교체 |
+| 12 | 자율비행 | 비전 센서 | RealSense D435i (現 RealSense AI 판매) / OAK-D Lite (Luxonis) | 1 | ea | 300,000 | 300,000 | RealSense AI/Luxonis 공식 | 표적 탐지·추적, VIO 보조. D435i는 Intel 분사 후에도 단종 아님 |
 | 13 | 자율비행 | FC-Orin 통신 케이블 | FTDI/UART 케이블 | 1 | set | 10,000 | 10,000 | 국내 전자상가 | MAVROS2 연동 |
 | 14 | 자율비행 | 방열 부품 | 소형 히트싱크+블로워팬 | 1 | set | 30,000 | 30,000 | 국내 전자상가 | Jetson 발열 대응 |
-| 15 | FPV | 디지털 FPV 시스템 | DJI O3 Air Unit + Goggles 2 | 1 | set | 550,000 | 550,000 | DJI 공식 | 조종사 모니터링/백업 수동조작 |
+| 15 | FPV | 디지털 FPV 시스템 | **DJI O4 Air Unit + DJI Goggles 3** | 1 | set | 550,000 | 550,000 | DJI 공식 | 조종사 모니터링/백업 수동조작, 구 O3/Goggles2는 이전 세대라 최신 라인업으로 교체 |
 | 16 | FPV | 백업 아날로그 카메라 | Foxeer Razer Nano | 1 | ea | 40,000 | 40,000 | 국내 FPV샵 | 영상 신호 이중화 |
-| 17 | 배터리/전원 | 리포 배터리 | Tattu 6S 1800mAh 130C | 2 | ea | 65,000 | 130,000 | 국내 FPV샵 | 고속/고부하 대응 |
-| 18 | 배터리/전원 | 배터리 충전기 | ISDT Q8 / SkyRC | 1 | ea | 180,000 | 180,000 | 국내대리점 | 다중 셀 급속 충전(재사용 가능) |
-| 19 | 배터리/전원 | Jetson 전용 UBEC | Matek 5V/6A UBEC | 1 | ea | 45,000 | 45,000 | 국내 FPV샵 | FC 내장 BEC 용량 부족 대응 |
+| 17 | 배터리/전원 | 리포 배터리 | Tattu R-Line V4.0 6S 1300mAh 130C | 2 | ea | 65,000 | 130,000 | 국내 FPV샵 | 고속/고부하 대응, 실제 확인된 SKU로 용량 수정(1800mAh→1300mAh) |
+| 18 | 배터리/전원 | 배터리 충전기 | ISDT Q8 (또는 Q8 Max) / SkyRC | 1 | ea | 180,000 | 180,000 | 국내대리점 | 다중 셀 급속 충전(재사용 가능) |
+| 19 | 배터리/전원 | Jetson 전용 UBEC | Hobbywing 5V/8A UBEC | 1 | ea | 45,000 | 45,000 | 국내 FPV샵 | FC 내장 BEC 용량 부족 대응 (Matek 5V/6A 정확 SKU 미확인으로 교체) |
 | 20 | 통신/조종 | RC 송수신기 | TBS Crossfire / ExpressLRS 2.4GHz | 1 | set | 120,000 | 120,000 | TBS/국내대리점 | 장거리·저지연 |
-| 21 | 통신/조종 | 조종기 | RadioMaster TX16S | 1 | ea | 350,000 | 350,000 | 국내대리점 | 다중 스위치, 페일세이프(재사용 가능) |
+| 21 | 통신/조종 | 조종기 | **RadioMaster TX16S Mark II** | 1 | ea | 350,000 | 350,000 | 국내대리점 | 다중 스위치, 페일세이프(재사용 가능), 구 TX16S는 단종되어 Mark II로 교체 |
 | 22 | 예비/공구 | 예비 모터/ESC/프롭 | - | 1 | set | 150,000 | 150,000 | - | 파손 대비 |
 | 23 | 예비/공구 | 조립 공구 세트 | 납땜인두, 렌치 등 | 1 | set | 100,000 | 100,000 | - | 최초 1회(재사용 가능) |
 | 24 | 예비/공구 | 진동 감쇠 마운트 | 젤 마운트(Jetson/카메라용) | 1 | set | 30,000 | 30,000 | 국내 FPV샵 | 비전 센서 흔들림 방지 |
@@ -54,7 +56,7 @@
 | 예비/공구 | 280,000 |
 | **총계 (1대 기준)** | **3,640,000** |
 
-> 조종기(TX16S), 충전기, 공구 세트는 여러 대 제작 시 1회성 투자로 재사용 가능하므로 2대째부터는 약 47만원(**No.18,21,23**) 절감됩니다.
+> 조종기(TX16S Mark II), 충전기, 공구 세트는 여러 대 제작 시 1회성 투자로 재사용 가능하므로 2대째부터는 약 47만원(**No.18,21,23**) 절감됩니다.
 
 ## BOM 관리 원칙
 - **부품 번호(No)**는 조립도/배선도 작성 시 참조 ID로 사용

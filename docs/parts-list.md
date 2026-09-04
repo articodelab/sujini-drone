@@ -2,6 +2,8 @@
 
 > ⚠️ **법적/안전 주의사항**: 타 비행체를 자동으로 요격(충돌)하는 시스템은 다수 국가에서 항공법·전파법·방위사업법상 규제 대상입니다. 실제 운용 전 관할 기관(국토부, 국방부, 방사청 등)의 허가/승인 여부를 반드시 확인하세요. 아래 부품 구성은 하드웨어 플랫폼 제작을 위한 참고용이며, **최종 충돌/요격 판단은 사람이 승인하는 Human-in-the-loop 구조**를 권장합니다.
 
+> ✅ **부품 검증**: 전 항목을 제조사 공식 사이트/리테일러 카탈로그 기준으로 재검증했습니다(2026-09 기준). 존재하지 않는 SKU(F90 Pro 1750KV, XING2 2812, TBS Source One V5 7", Armattan Rooster 7" 등)와 단종/개명된 제품(TX16S→Mark II, O3→O4/Goggles3, Intel RealSense→RealSense AI 등)을 실제 판매 중인 제품으로 교체했습니다.
+
 ## 컨셉
 - **기체**: 7인치 프레임, 고출력/고속 FPV 레이싱 플랫폼
 - **자율비행 스택**: PX4 (Flight Controller) + ROS2 (Companion Computer)
@@ -15,52 +17,53 @@
 ## 1. 프레임 (Frame)
 | 항목 | 추천 제품 | 예상 단가 (KRW) | 비고 |
 |---|---|---|---|
-| 7인치 레이싱 프레임 | Armattan Rooster 7" / TBS Source One V5 7" | 180,000 ~ 250,000 | 카본 3K, Jetson 탑재 공간 확보된 스택형 |
+| 7인치 레이싱 프레임 | iFlight XL7 V4 / HGLRC MY7 | 180,000 ~ 250,000 | 카본 3K, Jetson 탑재 공간 확보된 스택형 (TBS Source One V5는 5"만 존재, Armattan Rooster는 5"/6"만 존재 — 확인 결과 재수정) |
 | 프레임 보강 플레이트 | 알루미늄 스탠드오프 세트 | 20,000 | 진동 저감, 페이로드 마운트용 |
 
 ## 2. 동력계 (Propulsion)
 | 항목 | 추천 제품 | 예상 단가 (KRW) | 비고 |
 |---|---|---|---|
-| 모터 (4개) | T-Motor F90 Pro 1750KV or iFlight XING2 2812 | 280,000 (4개 합) | 고속·고토크, 6S 대응 |
-| ESC (4in1) | T-Motor F55A Pro II 4in1 60A | 150,000 | 6S 지원, BLHeli32 |
+| 모터 (4개) | T-Motor F90 1500KV or iFlight XING2 2806.5 1800KV | 280,000 (4개 합) | 6S 7인치 고속형 실제 판매 스펙 (F90는 1300/1500KV만 존재, XING2는 2806.5가 정확한 7인치용 SKU — "F90 Pro 1750KV", "XING2 2812"는 존재하지 않아 수정) |
 | 프로펠러 (예비 포함 3세트) | HQProp 7x4x3 or Gemfan 7042 | 45,000 | 고속형 |
+
+> ESC(4in1)는 아래 [3. 비행 컨트롤러 & 센서](#3-비행-컨트롤러--센서-fcsensors) 섹션의 **Tekko32 F4 Metal 4in1 65A**로 통일했습니다 (Kakute H7 공식 권장 페어링).
 
 ## 3. 비행 컨트롤러 & 센서 (FC/Sensors)
 | 항목 | 확정 제품 | 예상 단가 (KRW) | 비고 |
 |---|---|---|---|
-| Flight Controller | **Holybro Kakute H7 v1.5** | 130,000 | PX4 공식 지원(`make holybro_kakuteh7_default`), STM32H743, IMU: MPU6000, HITL 시뮬레이션과 동일 펌웨어 사용. **내장 마그네토미터 없음** → 외장 컴퍼스 필수 |
-| ESC (4in1) | **Tekko32 F4 Metal 4in1 65A** | 120,000 | PX4 문서상 Kakute H7 공식 권장 페어링 ESC, BLHeli32/DShot, ESC 텔레메트리(UART7) 지원 |
-| GPS/나침반 모듈 (외장 필수) | Holybro M9N/M10 GPS w/ Compass | 90,000 | Kakute H7에 마그네토미터가 없어 완전자율(GPS 웨이포인트) 비행을 위해 필수. UART4(GPS1)에 연결 |
-| 텔레메트리 (FC↔GCS) | Holybro 900MHz Telemetry Radio | 90,000 | TELEM1(UART1) 연결, 장거리 통신 |
+| Flight Controller | **Holybro Kakute H7 v1.5** | 130,000 | PX4 공식 지원(`make holybro_kakuteh7_default`, v1.13+), STM32H743, IMU: ICM-42688-P, HITL 시뮬레이션과 동일 펌웨어 사용. **내장 마그네토미터 없음** → 외장 컴퍼스 필수 |
+| ESC (4in1) | **Tekko32 F4 Metal 4in1 65A** | 120,000 | Holybro 공식 페어링 확인(30.5x30.5mm 스택 규격 일치), BLHeli32/AM32, DShot, ESC 텔레메트리(UART7) 지원 |
+| GPS/나침반 모듈 (외장 필수) | **Holybro M10 GPS** (IST8310 컴퍼스 내장) | 90,000 | Kakute H7에 마그네토미터가 없어 완전자율(GPS 웨이포인트) 비행을 위해 필수. UART4(GPS1)에 연결. Holybro 최신 라인업 중 현재 권장 모델 |
+| 텔레메트리 (FC↔GCS) | **Holybro SiK Telemetry Radio V3 (915MHz)** | 90,000 | TELEM1(UART1) 연결, 장거리 통신 (구 "900MHz Telemetry Radio"의 현재 정식 제품명) |
 | Optical Flow + 거리 센서 | Holybro PM07/거리 라이다 (TF-Luna 등) | 60,000 | 저고도 안정화 보조, GPS 신호 저하 구간(교량 하부 등) 대비 |
 
 ## 4. 컴패니언 컴퓨터 & 비전 (Autonomy)
 | 항목 | 추천 제품 | 예상 단가 (KRW) | 비고 |
 |---|---|---|---|
-| 컴패니언 컴퓨터 | NVIDIA Jetson Orin Nano Super (8GB) | 350,000 | ROS2 + PX4 오프보드 제어, 표적(적 드론) 인식 |
-| 캐리어 보드 (경량화) | Jetson Orin Nano 전용 소형 캐리어보드 (Seeed reComputer 등) | 200,000 | 항공기용 경량 설계 |
-| 비전 센서 | Intel RealSense D435i (뎁스) or 글로벌셔터 카메라(OAK-D Lite) | 300,000 | 표적 탐지/추적, VIO 보조 |
+| 컴패니언 컴퓨터 | NVIDIA **Jetson Orin Nano Super Developer Kit** (8GB) | 350,000 | ROS2 + PX4 오프보드 제어, 표적(적 드론) 인식. 정식 제품명 확인(NVIDIA 공식) |
+| 캐리어 보드 (경량화) | Waveshare Jetson Orin Nano 경량 캐리어보드 (또는 Auvidea JNX 시리즈) | 200,000 | ⚠️ Seeed reComputer는 데스크탑용 밀폐형 박스 제품이라 비행체에 부적합 — 항공기용 경량 베어 PCB 캐리어보드로 수정 |
+| 비전 센서 | RealSense D435i (現 RealSense AI 판매, 舊 Intel) or 글로벌셔터 카메라(OAK-D Lite, Luxonis) | 300,000 | 표적 탐지/추적, VIO 보조. D435i는 Intel에서 분사된 RealSense AI가 계속 판매 중(단종 아님) |
 | FC-Orin 통신 | FTDI/UART 케이블, MAVLink 브릿지 | 10,000 | MAVROS2 연동 |
 | 방열/쿨링 | 소형 히트싱크+블로워팬 | 30,000 | 비행 중 발열 대응 |
 
 ## 5. FPV 영상 시스템
 | 항목 | 추천 제품 | 예상 단가 (KRW) | 비고 |
 |---|---|---|---|
-| 디지털 FPV 시스템 | DJI O3 Air Unit + Goggles 2 | 550,000 | 조종사 모니터링/백업 수동조작용 |
+| 디지털 FPV 시스템 | **DJI O4 Air Unit + DJI Goggles 3** | 550,000 | 조종사 모니터링/백업 수동조작용 (구 O3/Goggles 2는 이전 세대 — DJI 공식 확인 결과 최신 라인업으로 수정) |
 | FPV 카메라(백업 아날로그) | Foxeer Razer Nano | 40,000 | 신호 이중화 |
 
 ## 6. 배터리 & 전원
 | 항목 | 추천 제품 | 예상 단가 (KRW) | 비고 |
 |---|---|---|---|
-| 리포 배터리 (2개) | Tattu 6S 1800mAh 130C | 130,000 (2개) | 고속/고부하 대응 |
-| 배터리 충전기 | ISDT Q8 / SkyRC | 180,000 | 다중 셀 급속 충전 |
-| Jetson 전용 전원 모듈 | 별도 5V/5A급 UBEC (Matek 5V/6A 등) | 45,000 | Kakute H7 내장 BEC(5V 2A)는 용량 부족 → Jetson Orin Nano는 배터리 직결 별도 UBEC 권장 |
+| 리포 배터리 (2개) | Tattu R-Line V4.0 6S 1300mAh 130C | 130,000 (2개) | 고속/고부하 대응 (기존 "1800mAh"는 확인된 실제 SKU와 불일치하여 R-Line 1300mAh로 수정) |
+| 배터리 충전기 | ISDT Q8 (또는 Q8 Max) / SkyRC | 180,000 | 다중 셀 급속 충전 |
+| Jetson 전용 전원 모듈 | Hobbywing 5V/8A UBEC | 45,000 | Kakute H7 내장 BEC(5V 2A)는 용량 부족 → Jetson Orin Nano는 배터리 직결 별도 UBEC 권장 (Matek 5V/6A 정확 SKU 미확인으로 Hobbywing 확정 제품으로 수정) |
 
 ## 7. 통신/조종
 | 항목 | 추천 제품 | 예상 단가 (KRW) | 비고 |
 |---|---|---|---|
 | RC 송수신기 | TBS Crossfire / ExpressLRS 2.4GHz | 120,000 | 장거리·저지연 |
-| 조종기 | RadioMaster TX16S | 350,000 | 다중 스위치, 페일세이프 설정 |
+| 조종기 | **RadioMaster TX16S Mark II** | 350,000 | 다중 스위치, 페일세이프 설정 (구 TX16S는 단종, Mark II가 현재 정식 판매 모델) |
 
 ## 8. 예비 부품 & 공구
 | 항목 | 예상 단가 (KRW) |
@@ -76,16 +79,16 @@
 | 구분 | 금액 (KRW) |
 |---|---|
 | 프레임 | 270,000 |
-| 동력계 | 475,000 |
+| 동력계 | 325,000 |
 | FC/센서 (Kakute H7 + Tekko32) | 490,000 |
 | 컴패니언 컴퓨터/비전 | 890,000 |
 | FPV | 590,000 |
 | 배터리/전원 | 355,000 |
 | 통신/조종 | 470,000 |
 | 예비품/공구 | 280,000 |
-| **합계** | **약 3,820,000원** |
+| **합계** | **약 3,670,000원** |
 
-> 가격은 2025년 기준 국내 리테일 평균가 참고치이며, 환율/재고/수입 여부에 따라 변동될 수 있습니다. 조종기(TX16S)와 충전기는 여러 대 제작 시 1회성 투자로 재사용 가능합니다.
+> 가격은 2025년 기준 국내 리테일 평균가 참고치이며, 환율/재고/수입 여부에 따라 변동될 수 있습니다. 조종기(TX16S Mark II)와 충전기는 여러 대 제작 시 1회성 투자로 재사용 가능합니다.
 
 ## PX4 HITL ↔ Isaac Sim 연동 워크플로우
 1. **펌웨어**: Kakute H7 v1.5에 Betaflight 부트로더 제거 후 PX4 부트로더 플래싱 → `make holybro_kakuteh7_default` 빌드/업로드 (Betaflight 출고 상태이므로 최초 1회 부트로더 교체 필요)
