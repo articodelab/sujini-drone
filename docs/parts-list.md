@@ -11,7 +11,7 @@
 - **시뮬레이션**: PX4 HITL ↔ NVIDIA Isaac Sim (실기체 투입 전 표적 추적/접근 로직 검증)
 - **컴패니언 컴퓨터**: NVIDIA Jetson Orin Nano (비전 인식/표적 추적, 접근 기동 유도)
 - **탐지 체계**: 장거리 탐지(광각+망원 듀얼 카메라) → 근접 광각 추적(글로벌셔터 카메라, 고속 급기동 대응) → 근접 깊이/VIO(RealSense D435i) → 고도 보조(TF-Luna, 표적 탐지 아님)
-- **위치 정밀도**: H-RTK F9P Helical GPS — 단일기체 운용이라 기준국/NTRIP 없이 표준 GNSS 대비 정밀도 개선 목적으로만 사용
+- **위치 정밀도**: Holybro M10 GPS(표준 GNSS) — H-RTK F9P Helical은 단일기체 운용 시 기준국 없이는 RTK 정밀도를 활용 못해 가성비 열위로 재검토 후 제외
 - **VIO**: 별도 완제품 VIO 센서(RealSense T265 등) 대신 Jetson Orin에서 Isaac ROS/VINS-Fusion으로 D435i 영상+FC IMU를 소프트웨어 융합(경량화 우선 기존 설계 유지)
 - **미채택**: mmWave 종말유도 레이더(TI IWR6843AOP), 3대 편대 RTK 삼각측량 — 사유는 9번 R&D 섹션 참고
 - **목표**: 적 드론을 탐지·추적하여 고속으로 접근, **사람 승인 후** 충돌 요격
@@ -38,7 +38,7 @@
 |---|---|---|---|
 | Flight Controller | **Holybro Kakute H7 v1.5** | 130,000 | PX4 공식 지원(`make holybro_kakuteh7_default`, v1.13+), STM32H743, IMU: ICM-42688-P. 배터리 입력 **2S-8S 지원**(6S 문제없음). **내장 마그네토미터 없음** → 외장 컴퍼스 필수 |
 | ESC (4in1) | **Hummingbird 305 4in1 80A (3-8S, AM32)** | 150,000 | 30x30mm 스택 마운트, 80A 연속/100A 버스트, 3-8S 정격이라 6S 운용 문제없음 |
-| GPS/나침반 모듈 (외장 필수) | **Holybro H-RTK F9P Helical** (IST8310 컴퍼스 내장) | 285,000 | $219/49g 확인, GPS/GLONASS/Galileo/BeiDou 멀티밴드, PX4 플러그앤플레이 공식 지원 확인. UART4(GPS1) 연결. ⚠️ 단일기체 운용이라 기준국/NTRIP 미도입 — cm급 RTK 고정해는 아니며 **표준 GNSS 대비 정밀도 개선 목적**으로만 사용 |
+| GPS/나침반 모듈 (외장 필수) | **Holybro M10 GPS** (IST8310 컴퍼스 내장) | 55,000 | $43.99 확인, 32g, GPS/GLONASS/Galileo/BeiDou 멀티밴드, PX4 공식 지원. UART4(GPS1) 연결. 💰 **가격 재검토(2026-09)**: H-RTK F9P Helical($219)는 단일기체 운용 시 기준국 없이 cm급 RTK를 활용할 수 없어 실효성 대비 고가 — 표준 GNSS 모듈로 복귀 |
 | 텔레메트리 (FC↔GCS) | **Holybro SiK Telemetry Radio V3 (915MHz)** | 90,000 | TELEM1(UART1) 연결, 장거리 통신 |
 | 고도 보조 센서 | 거리 라이다 TF-Luna | 60,000 | ⚠️ **저고도 안정화(GPS 신호 저하 구간 고도 보조) 전용 — 표적 탐지 기능 없음**, No.4의 탐지 카메라와 역할 구분 |
 
@@ -93,16 +93,16 @@
 |---|---|
 | 프레임 | 150,000 |
 | 동력계 | 135,000 |
-| FC/센서 (Kakute H7 + Hummingbird ESC + H-RTK F9P GPS + TF-Luna) | 715,000 |
+| FC/센서 (Kakute H7 + Hummingbird ESC + M10 GPS + TF-Luna) | 485,000 |
 | 컴패니언 컴퓨터/비전 (장거리 탐지 + 근접 광각 추적 카메라 포함) | 1,140,000 |
 | FPV | 590,000 |
 | 배터리/전원 (6S) | 315,000 |
 | 통신/조종 | 470,000 |
 | 예비품/공구 | 280,000 |
-| **합계** | **약 3,795,000원** |
+| **합계** | **약 3,565,000원** |
 
 > 가격은 2025-2026년 기준 국내 리테일 평균가 참고치이며, 환율/재고/수입 여부에 따라 변동될 수 있습니다. 조종기(TX16S Mark II)와 충전기는 여러 대 제작 시 1회성 투자로 재사용 가능합니다.
-> 📄 **비행 필수 부품만(조종기/공구/예비품 제외) 정리한 표는 `docs/BOM.md` 참고** (총계 약 3,195,000원)
+> 📄 **비행 필수 부품만(조종기/공구/예비품 제외) 정리한 표는 `docs/BOM.md` 참고** (총계 약 2,965,000원)
 
 ## PX4 HITL ↔ Isaac Sim 연동 워크플로우
 1. **펌웨어**: Kakute H7 v1.5에 Betaflight 부트로더 제거 후 PX4 부트로더 플래싱 → `make holybro_kakuteh7_default` 빌드/업로드 (Betaflight 출고 상태이므로 최초 1회 부트로더 교체 필요)
